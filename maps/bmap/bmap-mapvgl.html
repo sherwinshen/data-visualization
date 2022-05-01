@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>百度地图-mapvgl案例</title>
+    <script src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=你的密钥"></script>
+    <script src="https://unpkg.com/mapvgl/dist/mapvgl.min.js"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #container {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- step1. 编写容器组件 -->
+    <div id="container"></div>
+    <script>
+      // step2. 创建地图实例
+      const map = new BMapGL.Map("container");
+      var point = new BMapGL.Point(116.403748, 39.915055);
+      map.centerAndZoom(point, 17);
+      map.enableScrollWheelZoom(true);
+      // step3. 创建MapVGL图层管理器
+      const view = new mapvgl.View({ map });
+      // step4. 创建可视化图层，并添加到图层管理器中
+      const layer = new mapvgl.PointLayer({
+        color: "rgba(50, 50, 200, 1)",
+        blend: "lighter",
+        size: 20,
+      });
+      view.addLayer(layer);
+      // step5. 准备好规范化坐标数据
+      const data = [
+        {
+          geometry: {
+            type: "Point",
+            coordinates: [116.403748, 39.915055],
+          },
+        },
+      ];
+      // step6. 关联图层与数据
+      layer.setData(data);
+    </script>
+  </body>
+</html>

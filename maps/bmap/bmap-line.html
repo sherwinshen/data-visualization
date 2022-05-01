@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>百度地图-飞线动画</title>
+    <script src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=你的密钥"></script>
+    <script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+    <script src="https://mapv.baidu.com/build/mapv.js"></script>
+    <script src="https://unpkg.com/mapvgl/dist/mapvgl.min.js"></script>
+    <script src="https://unpkg.com/mapvgl/dist/mapvgl.threelayers.min.js"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #map_container {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map_container"></div>
+    <script>
+      const map = initBMap();
+      const data = initData();
+      setData(data, map);
+
+      // 初始化地图
+      function initBMap() {
+        // 引入 common.js 可以简化地图创建的过程
+        return initMap({
+          tilt: 60,
+          heading: 0,
+          center: [103.438656, 25.753594],
+          zoom: 6,
+          style: purpleStyle,
+        });
+      }
+
+      // 准备数据源
+      function initData() {
+        const cities = [
+          "北京",
+          "天津",
+          "上海",
+          "重庆",
+          "石家庄",
+          "太原",
+          "呼和浩特",
+          "哈尔滨",
+          "长春",
+          "沈阳",
+          "济南",
+          "南京",
+          "合肥",
+          "杭州",
+          "南昌",
+          "福州",
+          "郑州",
+          "武汉",
+          "长沙",
+          "广州",
+          "南宁",
+          "西安",
+          "银川",
+          "兰州",
+          "西宁",
+          "乌鲁木齐",
+          "成都",
+          "贵阳",
+          "昆明",
+          "拉萨",
+          "海口",
+        ];
+        const cityCenters = [];
+        cities.forEach((item) => {
+          cityCenters.push(mapv.utilCityCenter.getCenterByCityName(item)); // 通过 mapv 获取城市坐标
+        });
+
+        const data = [];
+        for (let i = 0; i < cityCenters.length - 1; i++) {
+          // 1 实例化贝塞尔曲线对象
+          const curve = new mapvgl.BezierCurve();
+          // 2 设置起点和终点
+          curve.setOptions({
+            start: [cityCenters[i].lng, cityCenters[i].lat],
+            end: [cityCenters[i + 1].lng, cityCenters[i + 1].lat],
+          });
+          // 3 生成贝塞尔曲线坐标集
+          const curveModelData = curve.getPoints();
+          data.push({
+            geometry: {
+              type: "LineString",
+              coordinates: curveModelData,
+            },
+            properties: {
+              count: Math.random(),
+            },
+          });
+        }
+        return data;
+      }
+
+      // 绘制数据源
+      function setData(data, map) {
+        // 1 生成 mapvgl 视图 View
+        const view = new mapvgl.View({ map });
+        // 2 初始化 mapvgl 的 FlyLineLayer 对象
+        const flyLineLayer = new mapvgl.FlyLineLayer({
+          style: "chaos",
+          step: 0.3,
+          color: "rgb(32,196,152,1)",
+          textureColor: function (data) {
+            return data.properties.count > 0.5 ? "#ff0000" : "#56ccdd";
+          },
+          textureWidth: 20,
+          textureLength: 50,
+        });
+
+        // 4 将 FlyLineLayer 对象加入到 View 中
+        view.addLayer(flyLineLayer);
+        // 3 将 Data 与 FlyLineLayer 进行绑定
+        flyLineLayer.setData(data);
+      }
+    </script>
+  </body>
+</html>

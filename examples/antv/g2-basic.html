@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>G2-基础案例</title>
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g2/4.1.32/dist/g2.min.js"></script>
+  </head>
+  <body>
+    <!--step1. 编写渲染容器 DOM-->
+    <div id="container"></div>
+    <script>
+      // step2. 准备渲染数据
+      const data = [
+        { year: "1951 年", sales: 38 },
+        { year: "1952 年", sales: 52 },
+        { year: "1956 年", sales: 61 },
+        { year: "1957 年", sales: 145 },
+        { year: "1958 年", sales: 48 },
+        { year: "1959 年", sales: 38 },
+        { year: "1960 年", sales: 38 },
+        { year: "1962 年", sales: 38 },
+      ];
+      // step3. 创建 Chart 图表对象，指定图表所在的容器 id、图表的宽高、边距等信息
+      const chart = new G2.Chart({
+        container: "container",
+        autoFit: true,
+        height: 500,
+      });
+      // step4. 载入图表数据源
+      chart.data(data);
+      // step5. 使用图形语法进行图表的绘制
+      chart.scale("sales", { nice: true });
+      chart.tooltip({ showMarkers: false });
+      chart.interaction("active-region");
+      chart.interval().position("year*sales");
+      // step6. 调用 render 完成渲染
+      chart.render();
+    </script>
+  </body>
+</html>

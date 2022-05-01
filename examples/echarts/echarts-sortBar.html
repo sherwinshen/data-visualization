@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECharts-动态排序柱状图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <div id="chart" style="width: 800px; height: 400px"></div>
+    <script>
+      const chartDom = document.getElementById("chart");
+      const chart = echarts.init(chartDom);
+      const data = [];
+      for (let i = 0; i < 5; ++i) {
+        data.push(Math.round(Math.random() * 200));
+      }
+
+      const option = {
+        xAxis: {
+          max: "dataMax",
+        },
+        yAxis: {
+          type: "category",
+          data: ["A", "B", "C", "D", "E"],
+          inverse: true,
+          animationDuration: 300,
+          animationDurationUpdate: 300,
+          max: 2, // only the largest 3 bars will be displayed
+        },
+        series: [
+          {
+            realtimeSort: true,
+            name: "X",
+            type: "bar",
+            data: data,
+            label: {
+              show: true,
+              position: "right",
+              valueAnimation: true,
+            },
+          },
+        ],
+        legend: {
+          show: true,
+        },
+        animationDuration: 3000,
+        animationDurationUpdate: 3000,
+        animationEasing: "linear",
+        animationEasingUpdate: "linear",
+      };
+
+      const update = () => {
+        const data = option.series[0].data;
+        for (var i = 0; i < data.length; ++i) {
+          if (Math.random() > 0.9) {
+            data[i] += Math.round(Math.random() * 2000);
+          } else {
+            data[i] += Math.round(Math.random() * 200);
+          }
+        }
+        chart.setOption(option);
+      };
+
+      setInterval(function () {
+        update();
+      }, 3000);
+    </script>
+  </body>
+</html>

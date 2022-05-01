@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECharts-柱状图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <div id="chart" style="width: 800px; height: 400px"></div>
+    <script>
+      const chartDom = document.getElementById("chart");
+      const chart = echarts.init(chartDom);
+      const option = {
+        xAxis: {
+          type: "category",
+        },
+        yAxis: {
+          type: "value",
+        },
+        dataset: {
+          source: [
+            ["小明", "小红", "小王"],
+            [70, 92, 87],
+          ],
+        },
+        series: [
+          {
+            name: "语文",
+            type: "bar", // 表示设置为柱状图
+            seriesLayoutBy: 'row',
+            // 最大值&最小值-点
+            markPoint: {
+              data: [
+                { type: "max", name: "最大值" },
+                { type: "min", name: "最小值" },
+              ],
+            },
+            // 平均值-线
+            markLine: {
+              data: [{ type: "average", name: "平均值" }],
+            },
+            // 数据显示
+            label: {
+              show: true, // 是否可见
+              rotate: 60, // 旋转角度
+            },
+            // 柱的宽度
+            barWidth: "30%",
+          },
+        ],
+      };
+      chart.setOption(option);
+    </script>
+  </body>
+</html>

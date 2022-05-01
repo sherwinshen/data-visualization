@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECharts-仪表盘图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <div id="chart" style="width: 800px; height: 400px"></div>
+    <script>
+      const chartDom = document.getElementById("chart");
+      const chart = echarts.init(chartDom);
+      const option = {
+        series: [
+          {
+            type: "gauge",
+            data: [
+              {
+                value: 97,
+                // 多个指针颜色的差异
+                itemStyle: {
+                  color: "pink",
+                },
+              },
+              { value: 12 },
+            ],
+            // 数值范围
+            max: 100,
+            min: 10,
+          },
+        ],
+      };
+      chart.setOption(option);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECharts-折线图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <div id="chart" style="width: 800px; height: 400px"></div>
+    <script>
+      const chartDom = document.getElementById("chart");
+      const chart = echarts.init(chartDom);
+      const option = {
+        xAxis: {
+          type: "category",
+          boundaryGap: false, // 紧挨边缘, 让起点从 x 轴的0坐标开始
+        },
+        yAxis: {
+          type: "value",
+          scale: true, // 缩放, 脱离0值比例, 常用于每一组数据之间相差较少, 且都比0大很多
+        },
+        dataset: {
+          source: [
+            ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月"],
+            [3000, 2800, 900, 1000, 800, 700, 1400, 1300, 900],
+          ],
+        },
+        series: [
+          {
+            type: "line",
+            seriesLayoutBy: "row",
+            encode: {},
+            // 最大值&最小值-点
+            markPoint: {
+              data: [
+                { type: "max", name: "最大值" },
+                { type: "min", name: "最小值" },
+              ],
+            },
+            // 平均值-线
+            markLine: {
+              data: [{ type: "average", name: "平均值" }],
+            },
+            // 标注区间
+            markArea: {
+              data: [
+                [{ xAxis: "1月" }, { xAxis: "2月" }],
+                [{ xAxis: "7月" }, { xAxis: "8月" }],
+              ],
+            },
+            // 平滑线条
+            smooth: true,
+            // 线条样式
+            lineStyle: {
+              color: "green",
+              type: "dashed", // 可选值还有 dotted solid
+            },
+            // 填充风格
+            areaStyle: {
+              color: "pink",
+            },
+          },
+        ],
+      };
+      chart.setOption(option);
+    </script>
+  </body>
+</html>

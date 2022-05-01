@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>百度地图-动画</title>
+    <script src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=你的密钥"></script>
+    <style type="text/css">
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+      }
+      #container {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      const map = new BMapGL.Map("container");
+      const point = new BMapGL.Point(116.404, 39.915);
+      map.centerAndZoom(point, 15);
+      map.enableScrollWheelZoom(true);
+
+      const keyFrames = [
+        {
+          center: new BMapGL.Point(116.307092, 40.054922),
+          zoom: 20,
+          tilt: 50,
+          heading: 0,
+          percentage: 0,
+        },
+        {
+          center: new BMapGL.Point(116.307631, 40.055391),
+          zoom: 21,
+          tilt: 70,
+          heading: 0,
+          percentage: 0.1,
+        },
+        {
+          center: new BMapGL.Point(116.306858, 40.057887),
+          zoom: 21,
+          tilt: 70,
+          heading: 0,
+          percentage: 0.25,
+        },
+        {
+          center: new BMapGL.Point(116.306858, 40.057887),
+          zoom: 21,
+          tilt: 70,
+          heading: -90,
+          percentage: 0.35,
+        },
+      ];
+      const opts = {
+        duration: 10000, // 设置每次迭代动画持续时间
+        delay: 3000, // 设置动画延迟开始时间
+        interation: "INFINITE", // 设置动画迭代次数
+      };
+      const animation = new BMapGL.ViewAnimation(keyFrames, opts);
+      map.startViewAnimation(animation); // 开始播放动画
+      // map.cancelViewAnimation(animation);         // 强制停止动画
+    </script>
+  </body>
+</html>

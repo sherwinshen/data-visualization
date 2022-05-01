@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>百度地图-飞线图</title>
+    <script src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=你的密钥"></script>
+    <script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+    <script src="https://mapv.baidu.com/build/mapv.js"></script>
+    <script src="https://unpkg.com/mapvgl/dist/mapvgl.min.js"></script>
+    <script src="https://unpkg.com/mapvgl/dist/mapvgl.threelayers.min.js"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #map_container {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map_container"></div>
+    <script>
+      const map = initBMap();
+      const data = initData();
+      setData(data, map);
+
+      // 初始化地图
+      function initBMap() {
+        // 引入 common.js 可以简化地图创建的过程
+        return initMap({
+          tilt: 0,
+          heading: 0,
+          center: [
+            mapv.utilCityCenter.getCenterByCityName("重庆").lng,
+            mapv.utilCityCenter.getCenterByCityName("重庆").lat,
+          ],
+          zoom: 6,
+          style: purpleStyle,
+        });
+      }
+
+      // 准备数据源
+      function initData_old() {
+        const cities = [
+          "北京",
+          "天津",
+          "重庆",
+          "石家庄",
+          "太原",
+          "呼和浩特",
+          "哈尔滨",
+          "长春",
+          "沈阳",
+          "济南",
+          "南京",
+          "合肥",
+          "杭州",
+          "南昌",
+          "福州",
+          "郑州",
+          "武汉",
+          "长沙",
+          "广州",
+          "南宁",
+          "西安",
+          "银川",
+          "兰州",
+          "西宁",
+          "乌鲁木齐",
+          "成都",
+          "贵阳",
+          "昆明",
+          "拉萨",
+          "海口",
+        ];
+        const data = [];
+        const center = mapv.utilCityCenter.getCenterByCityName("上海");
+        const curve = new mapvgl.BezierCurve();
+        for (let i = 0; i < 800; i++) {
+          const start = mapv.utilCityCenter.getCenterByCityName(
+            cities[parseInt(cities.length * Math.random())]
+          );
+          curve.setOptions({
+            start: [
+              start.lng - 5 + 10 * Math.random(),
+              start.lat - 5 + 10 * Math.random(),
+            ],
+            end: [center.lng, center.lat],
+          });
+          const curveModelData = curve.getPoints();
+          data.push({
+            geometry: {
+              type: "LineString",
+              coordinates: curveModelData,
+            },
+            properties: {
+              count: Math.random(),
+            },
+          });
+        }
+        return data;
+      }
+
+      // 准备数据源
+      function initData() {
+        const cities = [
+          "北京",
+          "天津",
+          "重庆",
+          "石家庄",
+          "太原",
+          "呼和浩特",
+          "哈尔滨",
+          "长春",
+          "沈阳",
+          "济南",
+          "南京",
+          "合肥",
+          "杭州",
+          "南昌",
+          "福州",
+          "郑州",
+          "武汉",
+          "长沙",
+          "广州",
+          "南宁",
+          "西安",
+          "银川",
+          "兰州",
+          "西宁",
+          "乌鲁木齐",
+          "成都",
+          "贵阳",
+          "昆明",
+          "拉萨",
+          "海口",
+        ];
+        const data = [];
+        const center = mapv.utilCityCenter.getCenterByCityName("上海");
+        const nodeData = [{ x: center.lng, y: center.lat }];
+        const edgeData = [];
+        for (let i = 0; i < 800; i++) {
+          const start = mapv.utilCityCenter.getCenterByCityName(
+            cities[parseInt(cities.length * Math.random())]
+          );
+          nodeData.push({
+            x: start.lng - 5 + 10 * Math.random(),
+            y: start.lat - 5 + 10 * Math.random(),
+          });
+          edgeData.push({ source: parseInt(i * Math.random()), target: 0 });
+        }
+        // 应用 mapv 中的边绑定
+        const bundling = mapv
+          .utilForceEdgeBundling()
+          .nodes(nodeData)
+          .edges(edgeData);
+        const results = bundling();
+        for (let i = 0; i < results.length; i++) {
+          const line = results[i];
+          const coordinates = [];
+          for (let j = 0; j < line.length; j++) {
+            coordinates.push([line[j].x, line[j].y]);
+          }
+          data.push({
+            geometry: {
+              type: "LineString",
+              coordinates: coordinates,
+            },
+          });
+        }
+        return data;
+      }
+
+      // 绘制数据源
+      function setData(data, map) {
+        const view = new mapvgl.View({ map });
+
+        const lineLayer = new mapvgl.LineLayer({
+          color: "rgba(55, 50, 250, 0.3)",
+          blend: "lighter",
+        });
+        const linePointLayer = new mapvgl.LinePointLayer({
+          size: 8,
+          speed: 20,
+          color: "rgba(255, 255, 0, 0.6)",
+          animationType: mapvgl.LinePointLayer.ANIMATION_TYPE_SMOOTH,
+          shapeType: mapvgl.LinePointLayer.SHAPE_TYPE_CIRCLE,
+          blend: "lighter",
+        });
+        lineLayer.setData(data);
+        linePointLayer.setData(data);
+
+        view.addLayer(lineLayer);
+        view.addLayer(linePointLayer);
+      }
+    </script>
+  </body>
+</html>

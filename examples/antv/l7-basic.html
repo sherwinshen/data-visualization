@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>L7-基础案例</title>
+    <script src="https://unpkg.com/@antv/l7"></script>
+  </head>
+  <body>
+    <!--step1. 编写渲染容器 DOM-->
+    <div id="map"></div>
+    <script>
+      // step2. 初始化地图对象 L7.Scene
+      const scene = new L7.Scene({
+        id: "map",
+        map: new L7.GaodeMap({
+          style: "dark", // 样式URL
+          center: [120.19382669582967, 30.258134],
+          pitch: 0,
+          zoom: 4,
+        }),
+      });
+
+      // step3. 请求数据
+      fetch(
+        "https://gw.alipayobjects.com/os/rmsportal/oVTMqfzuuRFKiDwhPSFL.json"
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          // step4. 初始化绘图对象并配置相关属性
+          const pointLayer = new L7.PointLayer({})
+            .source(data.list, {
+              parser: {
+                type: "json",
+                x: "j",
+                y: "w",
+              },
+            })
+            .shape("cylinder")
+            .size("t", function (level) {
+              return [1, 2, level * 2 + 20];
+            })
+            .color("t", [
+              "#094D4A",
+              "#146968",
+              "#1D7F7E",
+              "#289899",
+              "#34B6B7",
+              "#4AC5AF",
+              "#5FD3A6",
+              "#7BE39E",
+              "#A1EDB8",
+              "#CEF8D6",
+            ])
+            .style({
+              opacity: 1.0,
+            });
+          // step5. 调用 L7.Scene.addLayer 方法绘图
+          scene.addLayer(pointLayer);
+        });
+    </script>
+  </body>
+</html>

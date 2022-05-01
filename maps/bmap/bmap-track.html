@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>百度地图-动画</title>
+    <script src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=你的密钥"></script>
+    <!--注意还需引入当前的库TrackAnimation_min-->
+    <script src="https://api.map.baidu.com/library/TrackAnimation/src/TrackAnimation_min.js"></script>
+    <style type="text/css">
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+      }
+      #container {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      const map = new BMapGL.Map("container");
+      const point = new BMapGL.Point(116.297611, 40.047363);
+      map.centerAndZoom(point, 17);
+      map.enableScrollWheelZoom(true);
+
+      const path = [
+        {
+          lng: 116.297611,
+          lat: 40.047363,
+        },
+        {
+          lng: 116.302839,
+          lat: 40.048219,
+        },
+        {
+          lng: 116.308301,
+          lat: 40.050566,
+        },
+        {
+          lng: 116.306487,
+          lat: 40.058312,
+        },
+        {
+          lng: 116.307223,
+          lat: 40.056379,
+        },
+      ];
+      const points = [];
+      path.forEach((item) => {
+        points.push(new BMapGL.Point(item.lng, item.lat));
+      });
+      const pl = new BMapGL.Polyline(points);
+      const trackAni = new BMapGLLib.TrackAnimation(map, pl, {
+        overallView: true, // 动画完成后自动调整视野到总览
+        tilt: 30, // 轨迹播放的角度，默认为55
+        duration: 20000, // 动画持续时长，默认为10000，单位ms
+        delay: 5000, // 动画开始的延迟，默认0，单位ms
+      });
+      trackAni.start();
+      // trackAni.cancel();         // 强制停止动画
+    </script>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>百度地图-覆盖物</title>
+    <script src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=你的密钥"></script>
+    <style type="text/css">
+      html {
+        height: 100%;
+      }
+      body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+      }
+      #container {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      const map = new BMapGL.Map("container");
+      const point = new BMapGL.Point(116.404, 39.915);
+      map.centerAndZoom(point, 15);
+      map.enableScrollWheelZoom(true);
+
+      // 绘制图表
+      const myIcon = new BMapGL.Icon(
+        "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_168179.png&refer=http%3A%2F%2Fcdn.onlinewebfonts.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653384376&t=166437046c7942719ff707cfed0f2198",
+        new BMapGL.Size(30, 60),
+        {
+          anchor: new BMapGL.Size(15, 30),
+          imageOffset: new BMapGL.Size(0, 0),
+        }
+      );
+      const marker = new BMapGL.Marker(point, { icon: myIcon });
+
+      // 设置marker的事件 - 弹窗
+      marker.addEventListener("click", function () {
+        const opts = {
+          width: 250, // 信息窗口宽度
+          height: 100, // 信息窗口高度
+          title: "标题", // 信息窗口标题
+        };
+        const infoWindow = new BMapGL.InfoWindow("内容", opts); // 创建信息窗口对象
+        map.openInfoWindow(infoWindow, point); // 打开信息窗口
+      });
+      map.addOverlay(marker);
+
+      // 绘制线段
+      const polyline = new BMapGL.Polyline(
+        [
+          new BMapGL.Point(116.399, 39.8),
+          new BMapGL.Point(115.405, 39.81),
+          new BMapGL.Point(116.425, 39.82),
+        ],
+        { strokeColor: "red", strokeWeight: 4 }
+      );
+      map.addOverlay(polyline);
+
+      // 绘制多边形
+      const polygon = new BMapGL.Polygon(
+        [
+          new BMapGL.Point(116.8, 39.8),
+          new BMapGL.Point(117.0, 39.82),
+          new BMapGL.Point(117.2, 40.8),
+        ],
+        { strokeColor: "red", strokeWeight: 4, fillColor: "blue" }
+      );
+      map.addOverlay(polygon);
+
+      // 绘制文本
+      const label = new BMapGL.Label("hello world!", {
+        position: point,
+        offset: new BMapGL.Size(100, 10),
+      });
+      // 设置label的样式
+      label.setStyle({
+        width: "100px",
+        height: "20px",
+        padding: "20px",
+        color: "#fff",
+        fontSize: "20px",
+        border: "2px solid #1E90FF",
+        background: "red",
+        whiteSpace: "wrap",
+        overflow: "hidden",
+        lineHeight: "20px",
+      });
+      // 设置label的事件
+      label.addEventListener("click", function (e) {
+        alert(e.target.content);
+      });
+      map.addOverlay(label);
+    </script>
+  </body>
+</html>

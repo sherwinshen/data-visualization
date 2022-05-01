@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas-基础案例</title>
+  </head>
+  <body>
+    <!-- step1. 编写 canvas HTML 标签-->
+    <canvas id="canvas" height="800" width="800"></canvas>
+    <script>
+      // step2. 获取 canvas DOM 对象
+      const canvas = document.getElementById("canvas");
+      // step3. 创建 canvas 对象
+      const ctx = canvas.getContext("2d");
+      // step4. 设置绘图属性并调用绘图 API
+      /* 正方形绘制 */
+      ctx.fillStyle = "red";
+      ctx.fillRect(0, 0, 50, 50);
+      /* 路径绘制 */
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "blue";
+      ctx.moveTo(100, 100); // 起点
+      ctx.lineTo(250, 75); // 可添加多个中间点
+      ctx.lineTo(300, 100); // 最后一个即为终点
+      ctx.stroke();
+      /* 圆形绘制 */
+      ctx.beginPath(); // 结束上一段的绘制
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = "green";
+      ctx.fillStyle = "yellow";
+      ctx.arc(200, 200, 50, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fill();
+      /* 点绘制 */
+      ctx.beginPath(); // 结束上一段的绘制
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "red";
+      ctx.moveTo(150, 150);
+      ctx.lineTo(151, 151); // 也就是一个像素的路径
+      ctx.stroke();
+    </script>
+  </body>
+</html>

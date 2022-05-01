@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>百度地图-3D建筑</title>
+    <script src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=你的密钥"></script>
+    <script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+    <script src="https://mapv.baidu.com/build/mapv.js"></script>
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.54/dist/mapvgl.min.js"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #map_container {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map_container"></div>
+    <script>
+      const map = initBMap();
+      initData(map);
+
+      // 初始化地图
+      function initBMap() {
+        // 引入 common.js 可以简化地图创建的过程
+        return initMap({
+          tilt: 80,
+          heading: -45.3,
+          center: [106.540547, 29.564858],
+          zoom: 17,
+        });
+      }
+
+      // 准备数据源
+      function initData() {
+        fetch("https://www.youbaobao.xyz/datav-res/examples/chongqing.json")
+          .then((res) => res.json())
+          .then((res) => {
+            const data = res;
+            const polygons = [];
+            const len = data.length;
+            for (let i = 0; i < len; i++) {
+              const line = data[i];
+              const polygon = [];
+              const pt = [line[1] * 512, line[2] * 512];
+              for (let j = 3; j < line.length; j += 2) {
+                pt[0] += line[j] / 100 / 2;
+                pt[1] += line[j + 1] / 100 / 2;
+                polygon.push([pt[0], pt[1]]);
+              }
+              polygons.push({
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [polygon],
+                },
+                properties: {
+                  height: line[0] / 2,
+                },
+              });
+            }
+            setData(polygons, map);
+          });
+      }
+
+      // 绘制数据源
+      function setData(data, map) {
+        const view = new mapvgl.View({ map });
+        const shapeLayer = new mapvgl.ShapeLayer({
+          color: "rgb(0, 255, 255)",
+          blend: "lighter",
+          style: "windowAnimation",
+          opacity: 1.0, // 透明度
+          riseTime: 2000, // 楼房升起动画
+          enablePicked: true,
+          selectedIndex: -1,
+          selectedColor: "red",
+          autoSelect: true,
+          onClick: (e) => {
+            console.log(e);
+          },
+        });
+        shapeLayer.setData(data);
+        view.addLayer(shapeLayer);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GeoJSON-基础案例</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <div id="chart" style="width: 800px; height: 600px"></div>
+    <script>
+      const chartDom = document.getElementById("chart");
+      const chart = echarts.init(chartDom);
+      fetch("https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json")
+        .then((res) => res.json())
+        .then((data) => {
+          echarts.registerMap("chinaMap", data); // echarts 全局对象注册地图的 json 数据
+          /**
+           * 基于 Geo 组件
+           */
+          const option1 = {
+            geo: {
+              type: "map",
+              map: "chinaMap", // 注册的地图名称
+              roam: true, // 运行使用鼠标进行拖动和缩放
+              label: { show: true }, // 名称显示
+              zoom: 1.5, // 地图的缩放比例, 大于1代表放大, 小于1代表缩小
+              center: [107.617733, 33.792818], // 当前视角的中心点，用经纬度表示
+            },
+          };
+          /**
+           * 基于 series-map
+           */
+          const option2 = {
+            series: [
+              {
+                type: "map",
+                map: "chinaMap", // 注册的地图名称
+                roam: true, // 运行使用鼠标进行拖动和缩放
+                label: { show: true }, // 名称显示
+                zoom: 1.5, // 地图的缩放比例, 大于1代表放大, 小于1代表缩小
+                center: [107.617733, 33.792818], // 当前视角的中心点，用经纬度表示
+              },
+            ],
+          };
+          /**
+           * 基于 series-map + Geo
+           */
+          const option3 = {
+            geo: {
+              type: "map",
+              map: "chinaMap", // 注册的地图名称
+              roam: true, // 运行使用鼠标进行拖动和缩放
+              label: { show: true }, // 名称显示
+              zoom: 1.5, // 地图的缩放比例, 大于1代表放大, 小于1代表缩小
+              center: [107.617733, 33.792818], // 当前视角的中心点，用经纬度表示
+            },
+            series: [
+              // 散点数据
+              {
+                // 散点的坐标, 使用的是经纬度
+                data: [{ value: [117.283042, 31.86119] }],
+                type: "effectScatter",
+                coordinateSystem: "geo", // 散点图使用地图坐标系统
+                rippleEffect: {
+                  scale: 10,
+                },
+              },
+              // 将 series 下的数据和 geo 关联起来
+              {
+                type: "map",
+                geoIndex: 0, // 用 geoIndex 指定 geo 组件，map 和 其他 series（例如散点图）就可以共享一个 geo 组件了
+              },
+            ],
+          };
+          chart.setOption(option2);
+        });
+    </script>
+  </body>
+</html>

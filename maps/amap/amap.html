@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>高德地图-基础案例</title>
+    <script type="text/javascript">
+      window._AMapSecurityConfig = {
+        securityJsCode: "你的安全密钥",
+      };
+    </script>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=你的密钥"></script>
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+      #container {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- step1. 编写容器组件-->
+    <div id="container"></div>
+    <script>
+      // step2. 初始化 Map 对象
+      const map = new AMap.Map("container", {
+        zoom: 11, //级别
+        center: [116.397428, 39.90923], //中心点坐标
+        // viewMode: "3D", //使用3D视图
+      });
+      // step3. 设置图层
+      const trafficLayer = new AMap.TileLayer.Traffic({
+        zIndex: 10,
+      });
+      // step4. 将图层添加到地图
+      map.add(trafficLayer);
+    </script>
+  </body>
+</html>

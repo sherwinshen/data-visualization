@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>d3-数据绑定</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <p>Vue</p>
+    <p>React</p>
+    <p>Angular</p>
+    <button id="datum">datum</button>
+    <button id="data">data</button>
+    <script>
+      const body = d3.select("body"); // 这不是dom，这是d3相关的对象
+      const p = body.selectAll("p");
+      const doDatum = () => {
+        const str = "Framework";
+        p.datum(str);
+        p.text((d, i) => {
+          return `${d}-${i}`;
+        });
+      };
+      const doData = () => {
+        const dataset = ["vue", "react", "angular"];
+        p.data(dataset).text((d, i) => {
+          return `${d}-${i}`;
+        });
+      };
+      document.getElementById("datum").addEventListener("click", (e) => {
+        doDatum();
+      });
+      document.getElementById("data").addEventListener("click", (e) => {
+        doData();
+      });
+    </script>
+  </body>
+</html>

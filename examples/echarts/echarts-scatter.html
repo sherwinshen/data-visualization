@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECharts-散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <div id="chart" style="width: 800px; height: 400px"></div>
+    <script>
+      const chartDom = document.getElementById("chart");
+      const chart = echarts.init(chartDom);
+      const option = {
+        xAxis: {
+          type: "value",
+          scale: true,
+        },
+        yAxis: {
+          type: "value",
+          scale: true,
+        },
+        series: [
+          {
+            type: "scatter",
+            data: [
+              [161.2, 51.6],
+              [82, 151.6],
+              [44, 188],
+            ],
+            // 控制散点的大小, 也支持直接使用回调函数
+            // symbolSize: 25,
+            symbolSize: function (arg) {
+              const bmi = arg[1] / ((arg[0] / 100) * (arg[0] / 100));
+              return bmi > 28 ? 20 : 5;
+            },
+            // 控制散点的颜色, 也支持直接使用回调函数
+            // itemStyle: { color: 'green' },
+            itemStyle: function (arg) {
+              const bmi = arg[1] / ((arg[0] / 100) * (arg[0] / 100));
+              return bmi > 28 ? "red" : "green";
+            },
+          },
+        ],
+      };
+      chart.setOption(option);
+    </script>
+  </body>
+</html>
