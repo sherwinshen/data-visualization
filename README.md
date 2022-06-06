@@ -1,7 +1,7 @@
 ![封面](./imgs/datav.png)
 
 > 数据可视化代码地址：[data-visualization（Github）](https://github.com/sherwinshen/data-visualization)，数据可视化专题系列文章：
->
+> 
 > - [【专题篇】数据可视化之入门指南](https://www.yuque.com/sherwin-sw/fe/data-visualization)
 > - [【专题篇】数据可视化之ECharts篇](https://www.yuque.com/sherwin-sw/fe/data-visualization-echarts)
 > - [【专题篇】数据可视化之地图篇](https://www.yuque.com/sherwin-sw/fe/data-visualization-map)
@@ -28,9 +28,9 @@ canvas 是 HTML5 的新特性，它允许我们使用 canvas 元素在网页上�
 #### 2.1.1.1 绘图步骤
 
 1. 编写 canvas HTML 标签（需要指定宽高）
-1. 获取 canvas DOM 对象
-1. 创建 canvas 对象
-1. 设置绘图属性并调用绘图 API
+2. 获取 canvas DOM 对象
+3. 创建 canvas 对象
+4. 设置绘图属性并调用绘图 API
 
 #### 2.1.1.2 基础示例
 
@@ -92,8 +92,8 @@ SVG是一种基于 XML 的图像文件格式，它的英文全称为Scalable Vec
 #### 2.1.2.1 绘图步骤
 
 1. 编写 svg 标签，指定宽高
-1. 编写 svg 绘图标签
-1. 编写绘图属性和样式
+2. 编写 svg 绘图标签
+3. 编写绘图属性和样式
 
 #### 2.1.2.2 基础示例
 
@@ -195,11 +195,11 @@ WebGL（Web Graphics Library）是一种 3D 绘图协议，其可以为 HTML5 Ca
 #### 2.2.2.1 绘图步骤
 
 1. 引入 js 库
-1. 编写渲染容器 DOM，添加 width 和 height 样式属性
-1. 获取渲染 DOM 对象
-1. 初始化 ECharts 对象
-1. 编写 option 参数
-1. 调用 setOption 完成渲染
+2. 编写渲染容器 DOM，添加 width 和 height 样式属性
+3. 获取渲染 DOM 对象
+4. 初始化 ECharts 对象
+5. 编写 option 参数
+6. 调用 setOption 完成渲染
 
 #### 2.2.2.2 基础示例
 
@@ -251,11 +251,11 @@ WebGL（Web Graphics Library）是一种 3D 绘图协议，其可以为 HTML5 Ca
 #### 2.2.2.1 G2
 
 1. 编写渲染容器 DOM
-1. 准备渲染数据
-1. 创建 Chart 图表对象，指定图表所在的容器 id、图表的宽高、边距等信息
-1. 载入图表数据源
-1. 使用图形语法进行图表的绘制
-1. 调用 render 完成渲染
+2. 准备渲染数据
+3. 创建 Chart 图表对象，指定图表所在的容器 id、图表的宽高、边距等信息
+4. 载入图表数据源
+5. 使用图形语法进行图表的绘制
+6. 调用 render 完成渲染
 
 ```html
 <!DOCTYPE html>
@@ -305,10 +305,10 @@ WebGL（Web Graphics Library）是一种 3D 绘图协议，其可以为 HTML5 Ca
 #### 2.2.2.2 G6
 
 1. 编写渲染容器 DOM
-1. 准备渲染数据
-1. 创建 Chart 图表对象，指定图表所在的容器 id、图表的宽高等信息
-1. 配置数据源
-1. 调用 render 完成渲染
+2. 准备渲染数据
+3. 创建 Chart 图表对象，指定图表所在的容器 id、图表的宽高等信息
+4. 配置数据源
+5. 调用 render 完成渲染
 
 ```html
 <!DOCTYPE html>
@@ -365,10 +365,10 @@ WebGL（Web Graphics Library）是一种 3D 绘图协议，其可以为 HTML5 Ca
 #### 2.2.2.3 L7
 
 1. 编写渲染容器 DOM
-1. 初始化地图对象 L7.Scene
-1. 请求数据
-1. 初始化绘图对象并配置相关属性
-1. 调用 L7.Scene.addLayer 方法绘图
+2. 初始化地图对象 L7.Scene
+3. 请求数据
+4. 初始化绘图对象并配置相关属性
+5. 调用 L7.Scene.addLayer 方法绘图
 
 ```html
 <!DOCTYPE html>
@@ -441,15 +441,15 @@ WebGL（Web Graphics Library）是一种 3D 绘图协议，其可以为 HTML5 Ca
 
 [Highcharts](https://www.highcharts.com.cn/) 是一个用纯JavaScript编写的一个图表库， 能够很简单便捷的在web网站或是web应用程序添加有交互性的图表，并且免费提供给个人学习、个人网站和非商业用途使用。Highcharts 系列包含 Highcharts JS，Highstock JS，Highmaps JS，High 等内容，均为纯 JavaScript 编写的 HTML5 图表库。
 
-#### 2.2.3.1 Highcharts 
+#### 2.2.3.1 Highcharts
 
 Highcharts 支持的图表类型有直线图、曲线图、区域图、柱状图、饼状图、散状点图、仪表图、气泡图、瀑布流图等多达 20 种图表，其中很多图表可以集成在同一个图形中形成混合图。
 
-#### 2.2.3.2 Highstock 
+#### 2.2.3.2 Highstock
 
 Highstock 是用纯 JavaScript 编写的股票图表控件，可以开发股票走势或大数据量的时间轴图表。它包含多个高级导航组件：预设置数据时间范围，日期选择器、滚动条、平移、缩放功能。
 
-#### 2.2.3.3 Highmaps 
+#### 2.2.3.3 Highmaps
 
 Highmaps 是一款基于 HTML5 的优秀地图组件。Highmaps 继承了 Highcharts 简单易用的特性，利用它可以方便快捷的创建用于展现销售、选举结果等其他与地理位置关系密切的交互性地图图表。
 
@@ -559,5 +559,4 @@ Highmaps 是一款基于 HTML5 的优秀地图组件。Highmaps 继承了 Highch
 
 ------
 
-如果发现本项目有错误，欢迎提交 issues 指正，也可联系邮箱 [EnvisionShen@gmail.com](mailto:EnvisionShen@gmail.com)。
-
+如果发现本项目有错误，欢迎提交 issues 指正，也可联系邮箱 [sherwin_sw@163.com](mailto:sherwin_sw@163.com)。
