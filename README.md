@@ -6,6 +6,7 @@
 > - [【专题篇】数据可视化之ECharts篇](https://www.yuque.com/sherwin-sw/fe/data-visualization-echarts)
 > - [【专题篇】数据可视化之地图篇](https://www.yuque.com/sherwin-sw/fe/data-visualization-map)
 > - [【专题篇】数据可视化之SVG篇](https://www.yuque.com/sherwin-sw/fe/data-visualization-svg)
+> - [【专题篇】数据可视化之项目示例](https://www.yuque.com/sherwin-sw/fe/data-visualization-projects)
 
 # 1. 序言
 
